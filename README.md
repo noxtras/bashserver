@@ -1,4 +1,4 @@
-bashserver
+Bash web server using netcat
 ==========
 
 Bash web server with the use of netcat. It supports file downloads, it servers static html, PHP, Python and binary files with arguments (GET). It checks for 404 errors and it keeps a server log.
@@ -25,9 +25,20 @@ python files need to have the extension .py
 
 binaries need to have the extension .cb (C binary:) )
 
+
+Usage
+==========
+chmod 755 server.sh
+
+to run, type: ./server.sh
+
+open a browser and go to http://YOUR.IP.ADDRESS/index.html
+
+
 It's great if you just need a server for a short period of time and don't need security...
 It only works on Linux. (I've tested it under Ubuntu)
- 
+
+
 I had great fun working on it. I hope you'll have as much fun with it as had.
  
 If you find an use for it, drop me a line.
