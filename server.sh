@@ -1,7 +1,7 @@
 #!/bin/bash
-# web.sh -- http://localhost:8080/index.html
 # chmod 755 server.sh
-# then run: ./server.sh
+# run ./server.sh
+#open browser, visit http://localhost:8080/index.html
 
 RESP=/tmp/webresp
 [ -p $RESP ] || mkfifo $RESP
@@ -16,22 +16,23 @@ echo "[`date '+%Y-%m-%d %H:%M:%S'`] $REQ" | head -1 >> server.log 2>&1 | echo "[
 
 #split get into filename, arguments
 url=(${url//\?/ })
-filename="/home/george${url[0]}"
+cwd=$(pwd)
+filename="$cwd/www${url[0]}"
 
 #if there is a file
 if [ -f "$filename" ]; then
 #if html, set conten type html, otherwise read from file(needed for Firefox)
 if [[ "${url[0]}" == *.html ]] || [[ "${url[0]}" == *.htm ]] || [[ "${url[0]}" == *.php ]] || [[ "${url[0]}" == *.py ]] || [[ "${url[0]}" == *.cb ]]
-        then
-          ctype="text/html"
-        else
-          ctype=$(file --mime-type $filename)
-          ctype=${ctype#* }
+	then
+	  ctype="text/html"
+	else
+	  ctype=$(file --mime-type $filename)
+	  ctype=${ctype#* }
 fi
 
 #list arguments - to pass on to pyton or C
 if [ "${#url[@]}" -gt 1 ]; then
-        arg=${url[1]}
+	arg=${url[1]}
 cont=""
 getarg=(${url[1]//\&/ })
 for x in ${getarg[@]}
@@ -47,16 +48,16 @@ filedata=""
 executefile=${url[0]#*/}
 #execute C, Python and PHP scripts
 if [[ "${url[0]}" == *.cb ]]; then
-        filedata=$(./$executefile $cont)
+	filedata=$(cd www && ./$executefile $cont)
 elif [[ "${url[0]}" == *.php ]]; then
         filedata=$(php $filename $cont)
 elif [[ "${url[0]}" == *.py ]]; then
         filedata=$(python $filename $cont)
 else
-        filedata=$(<$filename)
+	filedata=$(<$filename)
 fi
 # Content-Length: ${#filedata}
-        TRES="HTTP/1.1 200 OK
+	TRES="HTTP/1.1 200 OK
 Cache-Control: private
 Server: bash/2.1
 Content-Type: $ctype
@@ -65,7 +66,7 @@ Content-Length: ${#filedata}
 
 $filedata"
 else
-        TRES="HTTP/1.1 404 Not Found
+	TRES="HTTP/1.1 404 Not Found
 Content-Type: text/html
 
 <h1>404 Not Found</h1>
