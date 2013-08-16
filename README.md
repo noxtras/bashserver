@@ -9,14 +9,22 @@ I fiddled a little with it and turned it into a decent web server, with server l
 It supports file downloads, it servers static html, PHP, Python and binary files with arguments (GET). It checks for 404 errors and it keeps a server log.
  
 Fun facts:
+
 faster then nginx at first run
+
 5 times slower then nginx (after nginx caches the PHP code?)
+
 executes binary faster then it can display static content
+
 Performance: binary > sttic files > python > PHP
 
+
 php files need to have the extension .php
+
 python files need to have the extension .py
+
 binaries need to have the extension .cb (C binary:) )
+
 It's great if you just need a server for a short period of time and don't need security...
 It only works on Linux. (I've tested it under Ubuntu)
  
