@@ -12,6 +12,7 @@ It supports file downloads, it servers static html, PHP, Python and binary files
 What's new
 =========
 - added ph7 support, now you can run the server without php support and still be able to run most php files
+(https://github.com/symisc/PH7)
 - improved security, now it loggs IP and date into server.log file
 - added default index.html directory index
 - fixed serving jpg and other binary files with NUL in them
