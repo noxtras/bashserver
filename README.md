@@ -4,9 +4,10 @@ Bash web server using netcat
 Bash web server with the use of netcat. It supports file downloads, it servers static html, PHP, Python and binary files with arguments (GET). It checks for 404 errors and it keeps a server log.
 
 Based on work by Paul Buchheit at: http://paulbuchheit.blogspot.ro/2007/04/webserver-in-bash.html
-I fiddled a little with it and turned it into a decent web server, with server logs and all. (no IP captured, just the query string and timestamp)
+I fiddled a little with it and turned it into a decent web server, with server logs and all. (IP, query string,timestamp)
  
 It supports file downloads, it servers static html, PHP, Python and binary files with arguments (GET). It checks for 404 errors and it keeps a server log.
+It also servers php file without PHP installed on the server, using ph7 script interpreter.
  
 
 What's new
