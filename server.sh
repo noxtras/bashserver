@@ -7,8 +7,9 @@ RESP=/tmp/webresp
 [ -p $RESP ] || mkfifo $RESP
 
 while true ; do
-
-( cat $RESP ) | nc -lv 8080 2>con.ip | (
+# listen on IPV4 and ipv6 , at port 80.  for this to work you need the BSD version of netcat
+#if you don't need ipv6, just use "nc -lv" (no 46)
+( cat $RESP ) | nc -46lv 80 2>con.ip | (
         REQ=`while read L && [ " " "<" "$L" ] ; do echo "$L" ; done`
         url="${REQ#GET }"
         url="${url% HTTP/*}"
@@ -20,15 +21,17 @@ while true ; do
         cwd=$(pwd)
         file="${url[0]}"
         if [ "$file" == "/" ]; then
-           file="index.html"
+           filename="$cwd/www/index.html"
+        else
+           filename="$cwd/www$file"
         fi
 
-        filename="$cwd/www$file"
+#        filename="$cwd/www$file"
 
         #if there is a file
         if [ -f "$filename" ]; then
         #if html, set conten type html, otherwise read file mime
-           if [[ "$file" == *.html ]] || [[ "$file" == *.htm ]] || [[ "$file" == *.php ]] || [[ "$file" == *.py ]] || [[ "$file" == *.cb ]] || [[ "$file" == *.ph7 ]]
+           if  [[ "$file" == "/" ]] || [[ "$file" == *.html ]] || [[ "$file" == *.htm ]] || [[ "$file" == *.php ]] || [[ "$file" == *.py ]] || [[ "$file" == *.cb ]] ||$
            then
                 ctype="text/html"
            else
